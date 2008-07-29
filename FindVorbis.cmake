@@ -7,9 +7,7 @@
 # Created by Jakob Juhl. This was influenced
 # by the Christians work for the unix version of this file.
 
-FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h vorbisfile.h
-  ${OE_LIB_DIR}/soundlibs/include
- 
+FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h   
   $ENV{VORBIS_DIR}/include
   /usr/local/include/vorbis
   /usr/local/include
@@ -21,8 +19,9 @@ FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h vorbisfile.h
   /opt/local/include
   /opt/csw/include
   /opt/include
-)
 
+  ${OE_LIB_DIR}/soundlibs/include
+)
 
 SET(VORBISLIB "vorbis")
 SET(VORBISFILELIB "vorbisfile")
