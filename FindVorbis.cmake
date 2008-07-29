@@ -23,9 +23,25 @@ FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h vorbisfile.h
   /opt/include
 )
 
-FIND_LIBRARY(VORBISFILE_LIBRARY vorbisfile_static_d vorbisfile PATH
-  ${OE_LIB_DIR}/soundlibs/lib
 
+SET(VORBISLIB "vorbis")
+SET(VORBISFILELIB "vorbisfile")
+
+STRING(COMPARE EQUAL ${CMAKE_BUILD_TYPE} "debug" ISDEBUGENABLED)
+IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+  IF(ISDEBUGENABLED)
+    SET(VORBISLIB "vorbis_static_d")
+    SET(VORBISFILELIB "vorbisfile_static_d")
+  ELSE(ISDEBUGENABLED)
+    SET(VORBISLIB "vorbis_static")
+    SET(VORBISFILELIB "vorbisfile_static")
+  ENDIF(ISDEBUGENABLED)
+ENDIF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+
+FIND_LIBRARY(VORBISFILE_LIBRARY
+  ${VORBISFILELIB}
+  PATH
+  ${OE_LIB_DIR}/soundlibs/lib
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
@@ -41,9 +57,10 @@ FIND_LIBRARY(VORBISFILE_LIBRARY vorbisfile_static_d vorbisfile PATH
 
 #MARK_AS_ADVANCED(VORBISFILE_LIBRARY)
 
-FIND_LIBRARY(VORBIS_LIBRARY vorbis_static_d vorbis PATH
+FIND_LIBRARY(VORBIS_LIBRARY
+  ${VORBISLIB}
+  PATH
   ${OE_LIB_DIR}/soundlibs/lib
-
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
