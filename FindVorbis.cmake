@@ -4,8 +4,9 @@
 #  VORBIS_FOUND, if false, do not try to link to Vorbis
 #  VORBIS_INCLUDE_DIR, where to find the headers
 #   
-# Created by Jakob Juhl. This was influenced
-# by the Christians work for the unix version of this file.
+# Created by Christian P. V. Christoffersen (cpvc). This was
+# influenced by the FindOpenAL.cmake module for the unix version
+# of this file. Jakob Juhl has fixed the file for Windows systems.
 
 FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h   
   $ENV{VORBIS_DIR}/include
@@ -19,7 +20,6 @@ FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h
   /opt/local/include
   /opt/csw/include
   /opt/include
-
   ${OE_LIB_DIR}/soundlibs/include
 )
 
@@ -54,8 +54,6 @@ FIND_LIBRARY(VORBISFILE_LIBRARY
   /opt/lib
 )
 
-#MARK_AS_ADVANCED(VORBISFILE_LIBRARY)
-
 FIND_LIBRARY(VORBIS_LIBRARY
   ${VORBISLIB}
   PATH
@@ -72,12 +70,6 @@ FIND_LIBRARY(VORBIS_LIBRARY
   /opt/csw/lib
   /opt/lib
 )
-
-#MARK_AS_ADVANCED(VORBIS_LIBRARY)
-
-MESSAGE("include vorbis: ${VORBIS_INCLUDE_DIR}")
-MESSAGE("lib vorbis: ${VORBIS_LIBRARY}")
-MESSAGE("lib vorbisfile: ${VORBISFILE_LIBRARY}")
 
 # Copy the results to the output variables.
 IF(VORBIS_INCLUDE_DIR AND VORBIS_LIBRARY AND VORBISFILE_LIBRARY)
