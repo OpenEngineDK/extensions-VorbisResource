@@ -4,10 +4,12 @@
 #  VORBIS_FOUND, if false, do not try to link to Vorbis
 #  VORBIS_INCLUDE_DIR, where to find the headers
 #   
-# Created by Christian P. V. Christoffersen (cpvc). This was influenced
-# by the FindOpenAL.cmake module.
+# Created by Jakob Juhl. This was influenced
+# by the Christians work for the unix version of this file.
 
-FIND_PATH(VORBIS_INCLUDE_DIR vorbisfile.h
+FIND_PATH(VORBIS_INCLUDE_DIR vorbis/vorbisfile.h vorbisfile.h
+  ${OE_LIB_DIR}/soundlibs/include
+ 
   $ENV{VORBIS_DIR}/include
   /usr/local/include/vorbis
   /usr/local/include
@@ -21,7 +23,9 @@ FIND_PATH(VORBIS_INCLUDE_DIR vorbisfile.h
   /opt/include
 )
 
-FIND_LIBRARY(VORBISFILE_LIBRARY NAMES vorbisfile
+FIND_LIBRARY(VORBISFILE_LIBRARY vorbisfile_static_d vorbisfile PATH
+  ${OE_LIB_DIR}/soundlibs/lib
+
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
@@ -37,7 +41,9 @@ FIND_LIBRARY(VORBISFILE_LIBRARY NAMES vorbisfile
 
 #MARK_AS_ADVANCED(VORBISFILE_LIBRARY)
 
-FIND_LIBRARY(VORBIS_LIBRARY NAMES vorbis
+FIND_LIBRARY(VORBIS_LIBRARY vorbis_static_d vorbis PATH
+  ${OE_LIB_DIR}/soundlibs/lib
+
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
