@@ -3,7 +3,6 @@
 
 #include <Resources/ISoundResource.h>
 #include <Resources/ResourcePlugin.h>
-#include <Meta/SDL.h>
 
 #include <string>
 
