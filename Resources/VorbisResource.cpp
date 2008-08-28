@@ -27,6 +27,7 @@ ISoundResourcePtr VorbisResourcePlugin::CreateResource(string file) {
 VorbisResource::VorbisResource(string filename, bool loop) :loop(loop), filename(filename) {
     // id(0), pause = false;
     loaded = false;
+    buffer = NULL;
 
     Load();
 }
@@ -66,11 +67,14 @@ void VorbisResource::Load() {
     // Get some information about the OGG file
     pInfo = ov_info(&oggFile, -1);
 
-    // Check the number of channels... always use 16-bit samples
+    // Check the number of channels...
     if (pInfo->channels == 1)
-        format = MONO_16BIT;
+        format = MONO;
     else
-        format = STEREO_16BIT;
+        format = STEREO;
+
+    // always use 16-bit samples
+    bitsPerSample = 16; //@todo: optimize this
 
     // The frequency of the sampling rate
     frequency = pInfo->rate;
@@ -128,8 +132,12 @@ SoundFormat VorbisResource::GetFormat() {
     return format;
 }
 
-int VorbisResource::GetFrequency() {
+unsigned int VorbisResource::GetFrequency() {
     return frequency;
+}
+
+unsigned int VorbisResource::GetBitsPerSample() {
+    return bitsPerSample;
 }
 
 } //NS Resources

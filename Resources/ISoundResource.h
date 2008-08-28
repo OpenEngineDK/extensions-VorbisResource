@@ -12,14 +12,16 @@
 
 #include <Resources/IResource.h>
 
+#include <Core/Exceptions.h>
+
+using OpenEngine::Core::Exception;
+
 namespace OpenEngine {
 namespace Resources {
 
 typedef enum {
-    MONO_8BIT    = 0x1100,
-    MONO_16BIT   = 0x1101,
-    STEREO_8BIT  = 0x1102,
-    STEREO_16BIT = 0x1103
+    MONO    = 0x0001,
+    STEREO  = 0x0010,
 } SoundFormat;
 
 /**
@@ -27,7 +29,7 @@ typedef enum {
  *
  * @class ISoundResource ISoundResource.h Resources/ISoundResource.h
  */
-  class ISoundResource : IResource {
+class ISoundResource : IResource {
 public:
 
     /**
@@ -37,8 +39,13 @@ public:
      */
     virtual char* GetBuffer() = 0;
     virtual unsigned int GetBufferSize() = 0;
-    virtual int GetFrequency() = 0;
+    virtual unsigned int GetFrequency() = 0;
     virtual SoundFormat GetFormat() = 0;
+    virtual unsigned int GetBitsPerSample() = 0;
+
+    unsigned int GetNumberOfSamples() {
+        return GetBufferSize() / (GetBitsPerSample()/8);
+    }
 
     virtual ~ISoundResource() {}
 };

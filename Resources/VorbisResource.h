@@ -27,10 +27,9 @@ class VorbisResource : public ISoundResource {
 private:
     bool loaded, loop;
     char* buffer;
-    unsigned int bufferSize;
+    unsigned int bufferSize, frequency, bitsPerSample;
     string filename;
     SoundFormat format;
-    int frequency;
 
 public:
     VorbisResource(string filename, bool loop = true);
@@ -43,7 +42,8 @@ public:
     // from ISoundResource
     virtual char* GetBuffer();
     virtual unsigned int GetBufferSize();
-    virtual int GetFrequency();
+    virtual unsigned int GetFrequency();
+    virtual unsigned int GetBitsPerSample();
     virtual SoundFormat GetFormat();
 };
 
