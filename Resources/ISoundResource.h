@@ -24,12 +24,25 @@ typedef enum {
     STEREO  = 0x0010,
 } SoundFormat;
 
+class ISoundResource;
+
+/**
+ * Sound resource smart pointer.
+ */
+typedef boost::shared_ptr<ISoundResource> ISoundResourcePtr;
+
+class SoundChangedEventArg {
+public:
+ SoundChangedEventArg(ISoundResourcePtr resource) : resource(resource) {}
+    ISoundResourcePtr resource;
+};
+
 /**
  * Sound resource interface.
  *
  * @class ISoundResource ISoundResource.h Resources/ISoundResource.h
  */
-class ISoundResource : IResource {
+class ISoundResource : IResource<SoundChangedEventArg> {
 public:
 
     /**
@@ -49,11 +62,6 @@ public:
 
     virtual ~ISoundResource() {}
 };
-
-/**
- * Movie resource smart pointer.
- */
-typedef boost::shared_ptr<ISoundResource> ISoundResourcePtr;
 
 } // NS Resources
 } // NS OpenEngine
