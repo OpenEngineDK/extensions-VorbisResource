@@ -42,7 +42,7 @@ VorbisResource::~VorbisResource() {
 }
 
 void VorbisResource::Load() {
-    if(loaded) Unload();
+    if (loaded) Unload();
 
     const unsigned int BUFFER_SIZE = 32768; // 32 KB buffers
 
@@ -62,7 +62,7 @@ void VorbisResource::Load() {
     if (f == NULL)
       throw Exception("Cannot open "+ filename + " for reading...");
 
-    vorbis_info *pInfo;
+    vorbis_info* pInfo;
     OggVorbis_File oggFile;
 
     // Try opening the given file
@@ -85,20 +85,17 @@ void VorbisResource::Load() {
     frequency = pInfo->rate;
 
     // Keep reading until all is read
-    do
-        {
+    do {
         // Read up to a buffer's worth of decoded sound data
         bytes = ov_read(&oggFile, array, BUFFER_SIZE, endian, 2, 1, &bitStream);
 
         if (bytes < 0) {
-	    ov_clear(&oggFile);
-	    throw Exception("Error decoding "+ filename + "...");
-	}
-
+            ov_clear(&oggFile);
+            throw Exception("Error decoding "+ filename + "...");
+        }
         // Append to end of buffer
         bufferData.insert(bufferData.end(), array, array + bytes);
-        }
-    while (bytes > 0);
+    } while (bytes > 0);
 
     // Clean up!
     ov_clear(&oggFile);
@@ -108,20 +105,20 @@ void VorbisResource::Load() {
 
     unsigned int i = 0;
     vector<char>::iterator itr;
-    for(itr=bufferData.begin(); itr!=bufferData.end(); ++itr) {
-      char c = (char)(*itr);
-      buffer[i] = c;
-      i++;
+    for (itr=bufferData.begin(); itr!=bufferData.end(); ++itr) {
+        char c = (char)(*itr);
+        buffer[i] = c;
+        i++;
     }
-
+    
     loaded = true;
 }
 
 void VorbisResource::Unload() {
-  if (!loaded) return;
-  delete[] buffer;
-  buffer = NULL;
-  loaded = false;
+    if (!loaded) return;
+    delete[] buffer;
+    buffer = NULL;
+    loaded = false;
 }
 
 unsigned int VorbisResource::GetBufferSize() {
