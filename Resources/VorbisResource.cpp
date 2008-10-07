@@ -60,14 +60,14 @@ void VorbisResource::Load() {
     f = fopen(fileName, "rb");
 
     if (f == NULL)
-      throw new Exception("Cannot open "+ filename + " for reading...");
+      throw Exception("Cannot open "+ filename + " for reading...");
 
     vorbis_info *pInfo;
     OggVorbis_File oggFile;
 
     // Try opening the given file
     if (ov_open(f, &oggFile, NULL, 0) != 0)
-      throw new Exception("Cannot open "+ filename + " for decoding...");
+      throw Exception("Cannot open "+ filename + " for decoding...");
 
     // Get some information about the OGG file
     pInfo = ov_info(&oggFile, -1);
@@ -92,7 +92,7 @@ void VorbisResource::Load() {
 
         if (bytes < 0) {
 	    ov_clear(&oggFile);
-	    throw new Exception("Error decoding "+ filename + "...");
+	    throw Exception("Error decoding "+ filename + "...");
 	}
 
         // Append to end of buffer
@@ -118,10 +118,9 @@ void VorbisResource::Load() {
 }
 
 void VorbisResource::Unload() {
-  if(!loaded) return;
-
-  delete buffer;
-
+  if (!loaded) return;
+  delete[] buffer;
+  buffer = NULL;
   loaded = false;
 }
 
