@@ -1,5 +1,5 @@
-#ifndef __VORBIS_SOUND_RESOURCE__
-#define __VORBIS_SOUND_RESOURCE__
+#ifndef _OE_VORBIS_SOUND_RESOURCE_H_
+#define _OE_VORBIS_SOUND_RESOURCE_H_
 
 #include <Resources/ISoundResource.h>
 #include <Resources/ResourcePlugin.h>
@@ -14,8 +14,7 @@ using namespace std;
 /**
  * Vorbis Sound Resource plug-in.
  *
- * @class VorbisResourcePlugin
- * OpenALSoundResource.h Resources/OpenALSoundResource.h
+ * @class VorbisResourcePlugin VorbisResource.h Resources/VorbisResource.h
  */
 class VorbisResourcePlugin : public ResourcePlugin<ISoundResource> {
 public:
@@ -23,6 +22,11 @@ public:
     ISoundResourcePtr CreateResource(string file);
 };
 
+/**
+ * Ogg Vorbis Resource.
+ *
+ * @class VorbisResource VorbisResource.h Resource/VorbisResource.h
+ */
 class VorbisResource : public ISoundResource {
 private:
     bool loaded, loop;
@@ -50,4 +54,4 @@ public:
 } //NS Resources
 } //NS OpenEngine
 
-#endif //__OPEN_AL_SOUND_RESOURCE__
+#endif //_OE_VORBIS_SOUND_RESOURCE_H_
