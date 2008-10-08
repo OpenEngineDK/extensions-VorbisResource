@@ -2,7 +2,7 @@
 #define _OE_VORBIS_SOUND_RESOURCE_H_
 
 #include <Resources/ISoundResource.h>
-#include <Resources/ResourcePlugin.h>
+#include <Resources/IResourcePlugin.h>
 
 #include <string>
 
@@ -16,7 +16,7 @@ using namespace std;
  *
  * @class VorbisResourcePlugin VorbisResource.h Resources/VorbisResource.h
  */
-class VorbisResourcePlugin : public ResourcePlugin<ISoundResource> {
+class VorbisResourcePlugin : public IResourcePlugin<ISoundResource> {
 public:
     VorbisResourcePlugin();
     ISoundResourcePtr CreateResource(string file);
