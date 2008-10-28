@@ -8,12 +8,13 @@
 #include <vector>
 
 #include <vorbis/vorbisfile.h>
+/*
 // following four lines removes compiler warning from vorbisfile.h
 static ov_callbacks OV_CALLBACKS_DEFAULT_DUMMY = OV_CALLBACKS_DEFAULT;
 static ov_callbacks OV_CALLBACKS_NOCLOSE_DUMMY = OV_CALLBACKS_NOCLOSE;
 static ov_callbacks OV_CALLBACKS_STREAMONLY_DUMMY = OV_CALLBACKS_STREAMONLY;
 static ov_callbacks OV_CALLBACKS_STREAMONLY_NOCLOSE_DUMMY = OV_CALLBACKS_STREAMONLY_NOCLOSE;
-
+*/
 namespace OpenEngine {
 namespace Resources {
 
