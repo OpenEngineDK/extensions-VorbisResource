@@ -50,6 +50,7 @@ public:
      *
      * @return length in miliseconds
      */
+
     virtual char* GetBuffer() = 0;
     virtual unsigned int GetBufferSize() = 0;
     virtual unsigned int GetFrequency() = 0;

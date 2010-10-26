@@ -7,7 +7,6 @@
 
 #include <vector>
 
-#include <vorbis/vorbisfile.h>
 /*
 // following four lines removes compiler warning from vorbisfile.h
 static ov_callbacks OV_CALLBACKS_DEFAULT_DUMMY = OV_CALLBACKS_DEFAULT;
@@ -26,15 +25,22 @@ VorbisResourcePlugin::VorbisResourcePlugin() {
     this->AddExtension("ogg");
 }
 
+StreamingVorbisResourcePlugin::StreamingVorbisResourcePlugin() {
+    this->AddExtension("ogg");
+}
+
+
 ISoundResourcePtr VorbisResourcePlugin::CreateResource(string file) {
   return ISoundResourcePtr(new VorbisResource(file, false));
+}
+IStreamingSoundResourcePtr StreamingVorbisResourcePlugin::CreateResource(string file) {
+  return IStreamingSoundResourcePtr(new StreamingVorbisResource(file, false));
 }
 
 VorbisResource::VorbisResource(string filename, bool loop) :loop(loop), filename(filename) {
     // id(0), pause = false;
     loaded = false;
     buffer = NULL;
-
     Load();
 }
 
@@ -127,6 +133,7 @@ unsigned int VorbisResource::GetBufferSize() {
 }
 
 char* VorbisResource::GetBuffer() {
+    
     return buffer;
 }
 
@@ -141,6 +148,94 @@ unsigned int VorbisResource::GetFrequency() {
 unsigned int VorbisResource::GetBitsPerSample() {
     return bitsPerSample;
 }
+    // Streaming vorbis
+StreamingVorbisResource::StreamingVorbisResource(string file, bool loop)
+: loop(loop)
+    , filename(file) {
+
+    Load();
+}
+
+StreamingVorbisResource::~StreamingVorbisResource() {
+    // delete any remaining buffers?
+}
+
+void StreamingVorbisResource::Load() {
+    FILE *f = fopen(filename.c_str(), "rb");
+    if (f == NULL)
+        throw Exception("Cannot open "+ filename + " for reading...");
+
+    vorbis_info* pInfo;
+    if (ov_open(f, &oggFile, NULL, 0) != 0)
+        throw Exception("Cannot open "+ filename + " for decoding...");
+
+    // Get some information about the OGG file
+    pInfo = ov_info(&oggFile, -1);
+
+    // Check the number of channels...
+    if (pInfo->channels == 1)
+        format = MONO;
+    else
+        format = STEREO;
+
+    // always use 16-bit samples
+    bitsPerSample = 16; //@todo: optimize this
+
+    // The frequency of the sampling rate
+    frequency = pInfo->rate;
+
+}
+void StreamingVorbisResource::Unload() {
+    
+}
+
+unsigned int StreamingVorbisResource::GetBuffer(unsigned int size, char *buffer) {
+    int bitStream;
+    int endian = 0;
+
+    long read = 0;
+    do {
+        long part = ov_read(&oggFile, (buffer+read), size-read, endian, 2, 1, &bitStream);
+        if (part > 0)
+            read += part;
+        else
+            return read;
+    } while (read < size);
+    return read;
+}
+
+
+unsigned int StreamingVorbisResource::GetBuffer(unsigned int offset, unsigned int size, char *buffer) {
+    int bitStream;
+    int endian = 0;
+    ov_pcm_seek(&oggFile, offset);
+
+    long read = 0;
+    do {
+        long part = ov_read(&oggFile, (buffer+read), size-read, endian, 2, 1, &bitStream);
+        if (part > 0)
+            read += part;
+        else
+            return read;
+    } while (read < size);
+    return read;
+}
+
+unsigned int StreamingVorbisResource::GetBitsPerSample() {
+    return bitsPerSample;
+}
+unsigned int StreamingVorbisResource::GetTotalSize() {
+    return ov_pcm_total(&oggFile,-1);
+
+}
+unsigned int StreamingVorbisResource::GetFrequency() {
+    return frequency;
+}
+
+SoundFormat StreamingVorbisResource::GetFormat() {
+    return format;
+}
+
 
 } //NS Resources
 } //NS OpenEngine
