@@ -27,23 +27,23 @@ SET(VORBISLIB "vorbis")
 SET(VORBISFILELIB "vorbisfile")
 SET(OGGLIB "ogg")
 
-STRING(COMPARE EQUAL ${CMAKE_BUILD_TYPE} "debug" ISDEBUGENABLED)
-IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
-  IF(ISDEBUGENABLED)
-    SET(VORBISLIB "vorbis_static_d")
-    SET(VORBISFILELIB "vorbisfile_static_d")
-    SET(OGGLIB "ogg_static_d")
-  ELSE(ISDEBUGENABLED)
-    SET(VORBISLIB "vorbis_static")
-    SET(VORBISFILELIB "vorbisfile_static")
-    SET(OGGLIB "ogg_static")
-  ENDIF(ISDEBUGENABLED)
-ENDIF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+#STRING(COMPARE EQUAL ${CMAKE_BUILD_TYPE} "debug" ISDEBUGENABLED)
+#IF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
+#  IF(ISDEBUGENABLED)
+#    SET(VORBISLIB "vorbis_static_d")
+#    SET(VORBISFILELIB "vorbisfile_static_d")
+#    SET(OGGLIB "ogg_static_d")
+#  ELSE(ISDEBUGENABLED)
+#    SET(VORBISLIB "vorbis_static")
+#    SET(VORBISFILELIB "vorbisfile_static")
+#    SET(OGGLIB "ogg_static")
+#  ENDIF(ISDEBUGENABLED)
+#ENDIF(CMAKE_BUILD_TOOL MATCHES "(msdev|devenv|nmake)")
 
 FIND_LIBRARY(VORBISFILE_LIBRARY
   ${VORBISFILELIB}
   PATH
-  ${OE_LIB_DIR}/vorbis/lib/static
+  ${OE_LIB_DIR}/vorbis/lib
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
@@ -60,7 +60,7 @@ FIND_LIBRARY(VORBISFILE_LIBRARY
 FIND_LIBRARY(OGG_LIBRARY
   ${OGGLIB}
   PATH
-  ${OE_LIB_DIR}/vorbis/lib/static
+  ${OE_LIB_DIR}/vorbis/lib
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
@@ -77,7 +77,7 @@ FIND_LIBRARY(OGG_LIBRARY
 FIND_LIBRARY(VORBIS_LIBRARY
   ${VORBISLIB}
   PATH
-  ${OE_LIB_DIR}/vorbis/lib/static
+  ${OE_LIB_DIR}/vorbis/lib
   $ENV{VORBIS_DIR}/lib
   /usr/local/lib/vorbis
   /usr/local/lib
