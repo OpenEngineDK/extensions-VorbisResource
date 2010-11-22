@@ -1,0 +1,7 @@
+# source
+darcs /extensions/VorbisResource    http://openengine.dk/code/extensions/VorbisResource
+darcs-dev /extensions/VorbisResource    fh.daimi.au.dk:/users/cgd/code/extensions/VorbisResource
+
+# win lib
+win32 /libraries http://openengine.dk/data/libraries/vorbis-win32.zip
+
