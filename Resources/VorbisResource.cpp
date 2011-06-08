@@ -193,7 +193,7 @@ unsigned int StreamingVorbisResource::GetBuffer(unsigned int size, char *buffer)
     int bitStream;
     int endian = 0;
 
-    long read = 0;
+    unsigned long read = 0;
     do {
         long part = ov_read(&oggFile, (buffer+read), size-read, endian, 2, 1, &bitStream);
         if (part > 0)
@@ -210,7 +210,7 @@ unsigned int StreamingVorbisResource::GetBuffer(unsigned int offset, unsigned in
     int endian = 0;
     ov_pcm_seek(&oggFile, offset);
 
-    long read = 0;
+    unsigned long read = 0;
     do {
         long part = ov_read(&oggFile, (buffer+read), size-read, endian, 2, 1, &bitStream);
         if (part > 0)
