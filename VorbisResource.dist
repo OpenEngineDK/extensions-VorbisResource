@@ -1,6 +1,6 @@
 # source
-git /extensions/VorbisResource    https://github.com/OpenEngineDK/extensions-VorbisResource.git
-git-dev /extensions/VorbisResource    git@github.com:OpenEngineDK/extensions-VorbisResource.git
+git /extensions/VorbisResource    https://github.com/OpenEngineDK/extensions-VorbisResource.git
+git-dev /extensions/VorbisResource    git@github.com:OpenEngineDK/extensions-VorbisResource.git
 
 # win lib
 win32 /libraries http://openengine.dk/data/libraries/vorbis-win32.zip
